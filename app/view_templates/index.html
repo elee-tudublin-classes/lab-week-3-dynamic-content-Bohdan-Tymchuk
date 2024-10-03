@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'partials/head.html' %}
+<body class="bg-gray-100">
+    <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div class="loader">Loading...</div>
+    </div>
+    {% include 'partials/nav.html' %}
+
+    <div class="container mx-auto p-6 mt-10">
+        <div class="bg-white shadow-md rounded-lg p-8 max-w-3xl mx-auto text-center">
+            <!-- Main Title -->
+            <h1 class="text-4xl font-bold text-gray-800 mb-6">Welcome to the FastAPI Project</h1>
+
+            <!-- Description -->
+            <p class="text-lg text-gray-600 mb-8">
+                This project demonstrates how to build a web application using FastAPI.
+                Below you can see the current server-side and client-side times.
+            </p>
+
+            <!-- Time Display -->
+            <div class="bg-gray-50 p-6 rounded-lg shadow-inner mb-6">
+                <!-- Server Time -->
+                <h2 class="text-2xl font-semibold text-gray-700">Server Time:</h2>
+                <p class="text-xl text-blue-500 mt-2">{{ server_time }}</p>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                <!-- Client Time -->
+                <h2 class="text-2xl font-semibold text-gray-700">Client Time:</h2>
+                <p class="text-xl text-blue-500 mt-2" id="clientTime"></p>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/dependencies.html' %}
+    <script src="/static/js/browserTime.js"></script>
+    <script>
+        window.onload = function() {
+        document.getElementById('preloader').style.display = 'none';
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<nav class="bg-white shadow-lg">
+  <div class="container mx-auto p-4 flex items-center justify-between">
+    <!-- Logo / Home Link -->
+    <a href="/" class="text-2xl font-bold text-gray-800 hover:text-blue-600">Home</a>
+
+    <!-- Hamburger Menu (Mobile) -->
+    <div class="lg:hidden">
+      <button id="menu-btn" class="text-gray-800 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navbar Links (Hidden on Mobile) -->
+    <div class="hidden lg:flex space-x-4">
+      <a href="/apod" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">APOD</a>
+      <a href="/advice" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">Random Advice</a>
+      <a href="/params?name=YourName" class="text-gray-700 hover:text-blue-600 transition-colors duration-200">Params</a>
+    </div>
+  </div>
+
+  <!-- Mobile Menu (Hidden by Default) -->
+  <div id="mobile-menu" class="hidden lg:hidden">
+    <a href="/apod" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">APOD</a>
+    <a href="/advice" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Random Advice</a>
+    <a href="/params?name=YourName" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Params</a>
+  </div>
+
+  <script>
+    // JavaScript to toggle mobile menu visibility
+    document.getElementById('menu-btn').addEventListener('click', function () {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+  </script>
+</nav>

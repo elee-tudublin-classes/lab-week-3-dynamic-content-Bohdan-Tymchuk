@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'partials/head.html' %}
+<body class="bg-gray-100">
+    {% include 'partials/nav.html' %}
+
+    <div class="container mx-auto p-6 mt-10">
+        <div class="bg-white shadow-md rounded-lg p-8 max-w-3xl mx-auto text-center">
+            <!-- Title -->
+            <h1 class="text-4xl font-bold text-gray-800 mb-6">Random Advice</h1>
+
+            <!-- Advice Content -->
+            <div class="bg-gray-50 p-6 rounded-lg shadow-inner mb-6">
+                <p class="text-xl text-blue-500 font-semibold">{{ advice }}</p>
+            </div>
+
+            <!-- Optional: Button to fetch new advice dynamically -->
+            <button id="new-advice-btn" class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+                Get New Advice
+            </button>
+        </div>
+    </div>
+
+    {% include 'partials/dependencies.html' %}
+
+    <!-- Optional: JavaScript for dynamically fetching new advice -->
+    <script>
+        document.getElementById('new-advice-btn').addEventListener('click', function() {
+            fetch('/advice')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('p.text-xl').textContent = data.advice;
+                })
+                .catch(error => console.error('Error fetching new advice:', error));
+        });
+    </script>
+</body>
+</html>
