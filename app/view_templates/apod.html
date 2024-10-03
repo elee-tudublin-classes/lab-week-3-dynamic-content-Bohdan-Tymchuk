@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'partials/head.html' %}
+<body class="bg-gray-100">
+    {% include 'partials/nav.html' %}
+
+    <div class="container mx-auto p-6 mt-10">
+        <div class="bg-white shadow-md rounded-lg p-8 max-w-3xl mx-auto text-center">
+            <!-- Title Section -->
+            <h1 class="text-4xl font-bold text-gray-800 mb-6">Astronomy Picture of the Day</h1>
+
+            <!-- APOD Title -->
+            <h3 class="text-2xl font-semibold text-blue-500 mb-4">{{ title }}</h3>
+
+            <!-- APOD Image -->
+            <div class="mb-6">
+                <img src="{{ image_url }}" alt="Astronomy Picture of the Day" class="rounded-lg shadow-lg mx-auto w-full h-auto">
+            </div>
+
+            <!-- APOD Explanation -->
+            <p class="text-lg text-gray-600 leading-relaxed">{{ explanation }}</p>
+        </div>
+    </div>
+
+    {% include 'partials/dependencies.html' %}
+</body>
+</html>

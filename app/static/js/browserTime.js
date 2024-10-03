@@ -1,21 +1,13 @@
-function getTime() {
-    let now = new Date()
-
-    // return object with date and time in required format
-    return {
-        date: now.toLocaleDateString('en-ie'),
-        time: now.toLocaleTimeString('en-ie')
-    }
+// browserTime.js
+function updateClientTime() {
+    const clientTimeSpan = document.getElementById('clientTime');
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    clientTimeSpan.textContent = timeString;
 }
 
-const browserTime = document.getElementById('browserTime');
+// Update the time every second
+setInterval(updateClientTime, 1000);
 
-// update browser time
-function updateBrowserTime() {
-    const now = getTime();
-    browserTime.innerText = `${now.date} ${now.time}`;
-    // recursive call to update every second
-    setTimeout(updateBrowserTime, 1000);
-}
-
-updateBrowserTime();
+// Set the initial client time on page load
+updateClientTime();
