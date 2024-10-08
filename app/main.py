@@ -34,31 +34,51 @@ async def index(request: Request):
     server_time = datetime.now().strftime("%H:%M:%S")
     return templates.TemplateResponse("index.html", {"request": request, "server_time": server_time})
 
+
 @app.get("/advice", response_class=HTMLResponse)
 async def get_advice(request: Request):
     """Fetch random advice and render the advice page."""
     async with httpx.AsyncClient() as client:
-        response = await client.get(ADVICE_URL)
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail="Error fetching advice")
-        advice_data = response.json()
-        advice = advice_data['slip']['advice']
+        try:
+            response = await client.get(ADVICE_URL)
+            response.raise_for_status()  # Raise for bad responses
+            advice_data = response.json()
+            advice = advice_data.get('slip', {}).get('advice', 'No advice available')
+        except httpx.RequestError as exc:
+            raise HTTPException(status_code=500, detail=f"Request error: {exc}")
+        except httpx.HTTPStatusError as exc:
+            raise HTTPException(status_code=exc.response.status_code, detail=f"Error fetching advice: {exc}")
+        except ValueError:
+            raise HTTPException(status_code=500, detail="Error parsing advice response")
+
     return templates.TemplateResponse("advice.html", {"request": request, "advice": advice})
+
 
 @app.get("/apod", response_class=HTMLResponse)
 async def get_apod(request: Request):
     """Fetch Astronomy Picture of the Day (APOD) and render the APOD page."""
     async with httpx.AsyncClient() as client:
-        response = await client.get(NASA_APOD_URL)
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail="Error fetching APOD")
-        apod_data = response.json()
+        try:
+            response = await client.get(NASA_APOD_URL)
+            response.raise_for_status()  # Raise for bad responses
+            apod_data = response.json()
+            title = apod_data.get("title", "No title available")
+            image_url = apod_data.get("url", "")
+            explanation = apod_data.get("explanation", "No explanation available")
+        except httpx.RequestError as exc:
+            raise HTTPException(status_code=500, detail=f"Request error: {exc}")
+        except httpx.HTTPStatusError as exc:
+            raise HTTPException(status_code=exc.response.status_code, detail=f"Error fetching APOD: {exc}")
+        except ValueError:
+            raise HTTPException(status_code=500, detail="Error parsing APOD response")
+
     return templates.TemplateResponse("apod.html", {
         "request": request,
-        "title": apod_data.get("title"),
-        "image_url": apod_data.get("url"),
-        "explanation": apod_data.get("explanation")
+        "title": title,
+        "image_url": image_url,
+        "explanation": explanation
     })
+
 
 @app.get("/params", response_class=HTMLResponse)
 async def greet_user(request: Request, name: str = "Guest"):
